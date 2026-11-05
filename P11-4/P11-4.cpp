@@ -5,7 +5,7 @@
 #include <iostream>
 using namespace std;
 
-bool isCardValid(int digits[], int size);
+bool isCardValid(int digits[], int size);	//	Completed
 
 int credit_card_num;
 int digits[8];
