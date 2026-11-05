@@ -23,21 +23,33 @@ int main() {
 		cin >> input;
 
 		//cin >> credit_card_num;
-		if (cin.fail()) {
+		if (input == "Q") {
 			return 0;
 		}
-
-		for (int i = 0; i < 16; i++) {
-			digits[i] = credit_card_num % 10;
-			credit_card_num /= 10;
+		if (isNumeric(input) == false) {
+			cout << "Error - card number must contain only digits." << endl << endl;
+			continue;
 		}
 
-		bool card_validity = isCardValid(digits, 8);
-		if (card_validity) {
-			cout << "Card is valid." << endl;
+		if (isCorrectLength(input) == false) {
+			cout << "Error - card number must contain 16 digits" << endl << endl;
+			continue;
 		}
+
+
 		else {
-			cout << "Card is not valid." << endl;
+
+			for (int i = 0; i < 16; i++) {
+				digits[i] = input[i] - '0';
+			}
+
+			bool card_validity = isCardValid(digits, 16);
+			if (card_validity) {
+				cout << "Card is valid." << endl;
+			}
+			else {
+				cout << "Card is not valid." << endl;
+			}
 		}
 	}
 }
@@ -45,10 +57,10 @@ int main() {
 bool isCardValid(int digits[], int size) {
 	int sum_of_every_other_digit_from_right = 0;
 	int sum_of_every_other_doubled_digit_from_left = 0;
-	for (int i = 16; i >= 0; i -= 2) {
+	for (int i = 15; i >= 0; i -= 2) {
 		sum_of_every_other_digit_from_right += digits[i];
 		}
-	for (int i = 1; i < 16; i += 2) {
+	for (int i = 0; i < 15; i += 2) {
 		sum_of_every_other_doubled_digit_from_left += ((digits[i] * 2) % 10 + (digits[i] * 2) / 10);
 	}
 	if ((sum_of_every_other_digit_from_right + sum_of_every_other_doubled_digit_from_left) % 10 == 0) {
@@ -58,8 +70,8 @@ bool isCardValid(int digits[], int size) {
 }
 
 bool isNumeric(string s) {
-	for (int i = 0; i < 16; i++) {
-		if (s[i] > '9' || s[i] < 0) {
+	for (int i = 0; i < s.length(); i++) {
+		if (s[i] < '0' || s[i] > '9') {
 			return false;
 		}
 	}
